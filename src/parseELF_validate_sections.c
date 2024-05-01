@@ -197,35 +197,6 @@ int addRelocation(char* libPath, void* addr, int size){
     return 0;
 }
 
-/* NOTE: Not needed here, remove from public */
-#define SIZE 256
-float entropy_calc(long byte_count[], int length)
-{
-      float entropy = 0;
-      float count = 0;
-      int i = 0;
-
-      /* entropy calculation */
-      for (i = 0; i < SIZE; i++)
-        {
-          if (byte_count[i] != 0)
-            {
-              count = (float) byte_count[i] / (float) length;
-              entropy += -count * log2f(count);
-            }
-        }
-      return entropy;
-}
-
-float get_entropy(unsigned char* indata, int size){
-    long byte_count[SIZE] = {0};
-    int counter = 0;
-    for (counter = 0; counter < size; counter++){
-        byte_count[indata[counter]] += 1;
-    }
-    return entropy_calc(byte_count, size);
-}
-
 /* Dumb generic hash function, should be replaced with crc32 or something, 
  * or just use this and hope for the best */
 uint32_t calcGenericHash(unsigned char* basePtr, int size){
