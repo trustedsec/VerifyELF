@@ -240,9 +240,16 @@ int ptrace_read(int pid, unsigned long addr, void *vptr, int len)
     int bytesRead = 0;
     int i = 0;
     long word = 0;
-    long *ptr = (long *) vptr;
+    long *ptr = NULL;
     int retcode = 0;
     errno = 0;
+    /* Added safety check */
+    if (vptr == NULL){
+        DEBUG_PRINT("Passed in NULL, returning 1\n");
+        return 1;
+    }
+    ptr = (long *) vptr;
+ 
     while (bytesRead < len)
     {
         word = ptrace(PTRACE_PEEKTEXT, pid, addr + bytesRead, NULL);
